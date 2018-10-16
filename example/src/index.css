@@ -3,3 +3,32 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+
+.component-holder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.component {
+  float: left;
+  width: 25%;
+  height: 100%;
+  min-height: 100%;
+  position: relative;
+}
+.component-red {
+  background: #d45050;
+}
+.component-blue {
+  background: #636ce0;
+}
+.component-yellow {
+  background: #e0c74b;
+}
+.component-mellow {
+  background: #61dafb;
+}

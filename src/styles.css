@@ -1,8 +1,60 @@
-/* add css styles here (optional) */
-
-.test {
+.focustip {
+	box-sizing: content-box;
+	position: fixed;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	z-index: 999;
+	top: 100px;
+	left: 300px;
+	background: transparent;
+	border: solid 2px #FFF;
+	box-shadow: inset 0 2px 16px rgba(0,0,0,.3);
+}
+.focustip__lens {
+	box-sizing: content-box;
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 104px;
+	height: 104px;
+	margin-top: -5002px;
+	margin-left: -5002px;
+	border-radius: 50%;
+	border: solid 5000px rgba(0,175,230,0.8);
+}
+.focustip__contentWrapper {
+	box-sizing: content-box;
+	color: #FFF;
+	font-size: 25px;
+	position: absolute;
+	top: 115px;
+	left: 30px;
+	width: 400px;
+	line-height: 1.15em;
+}
+.focustip__content {
+  
+}
+.focustip__ok {
+  box-sizing: content-box;
   display: inline-block;
-  margin: 2em auto;
-  border: 2px solid #000;
-  font-size: 2em;
+  background: rgba(255,255,255,0.15);
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 20px;
+  font-weight: bold;
+
+  -webkit-transition: all 0.3s ease;                  
+  -moz-transition: all 0.3s ease;                 
+  -o-transition: all 0.3s ease;   
+  -ms-transition: all 0.3s ease;          
+  transition: all 0.3s ease;
 }
