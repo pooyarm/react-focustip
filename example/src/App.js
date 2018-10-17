@@ -27,9 +27,9 @@ class App extends Component {
       },
       {
         target: '.shitLink',
-        content: 'Buy and download Focustip files via this link.',
-        ok: 'Ok',
-        color: '#000000',
+        content: (<p style={{color: '#000'}}>Buy and download Focustip files via this link.</p>),
+        ok: <span style={{color: '#000'}}>Ok</span>,
+        color: '#b7ad3e',
         size: 70
       },
       {

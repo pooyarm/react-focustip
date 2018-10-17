@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import stylesheet from './styles.css';
 import { scrollTo } from './utils/dom';
+import { hexToRgb } from './utils/color';
 
 class App extends React.Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class App extends React.Component {
 
         return (
             <div className={this.classNames()} style={styles}>
-              <span className={stylesheet.focustip__lens}></span>
+              <span className={stylesheet.focustip__lens} style={this.calculateLensStyles(target, step)}></span>
               <div className={stylesheet.focustip__contentWrapper}>
                 <div className={stylesheet.focustip__content}>
                   {step.content}
@@ -73,6 +74,17 @@ class App extends React.Component {
             width:  this.size(step) + 'px',
             height: this.size(step) + 'px'
         }
+    }
+
+    calculateLensStyles(target, step) {
+        return {
+            borderColor: this.lensBorderColor(target, step)
+        };
+    }
+
+    lensBorderColor(target, step) {
+        let rgba = hexToRgb(step.color);
+        return `rgba(${rgba.r},${rgba.g},${rgba.b},0.8)`;
     }
 
     size(step) {
