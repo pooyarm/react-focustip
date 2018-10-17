@@ -26,7 +26,7 @@ class App extends React.Component {
         let styles = this.calculateStyles(target);
 
         return (
-            <div className={stylesheet.focustip} style={styles}>
+            <div className={this.classNames()} style={styles}>
               <span className={stylesheet.focustip__lens}></span>
               <div className={stylesheet.focustip__contentWrapper}>
                 <div className={stylesheet.focustip__content}>
@@ -57,15 +57,16 @@ class App extends React.Component {
         visibility: true
       });
     }
+
     calculateStyles(target) {
         let {left, top} = this.calculatePosition(target);
 
         return {
           left,
           top,
-          display: (this.state.visibility)?'block':'none'
         };
     }
+    
     calculatePosition(target) {
       let targetRect = target.getBoundingClientRect();
 
@@ -77,6 +78,13 @@ class App extends React.Component {
         top
       }
     }
+
+    classNames() {
+        var classNames = [stylesheet.focustip];
+        classNames.push((this.state.visibility)?stylesheet['focustip--visible']:stylesheet['focustip--invisible']);
+        return classNames.join(' ');
+    }
+    
     scroll(element) {
       var target = element.getBoundingClientRect().y + document.documentElement.scrollTop;
       target = Math.max(target - 200, 0);
