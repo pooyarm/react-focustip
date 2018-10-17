@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
 
 import stylesheet from './styles.css';
+import { scrollTo } from './utils/dom';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             step: 0,
+            visibility: false,
             width: 100,
-            height: 100
+            height: 100,
         };
     }
     renderStep() {
         let step = this.props.steps[this.state.step];
         if (!step) return null;
+        let target = document.querySelector(step.target);
         console.log('state', this.state);
         console.log('step', step);
-        let target = document.querySelector(step.target);
         console.log('target',target);
+
+        this.scroll(target).then(this.makeVisible.bind(this));
 
         let styles = this.calculateStyles(target);
 
@@ -37,69 +41,46 @@ class App extends React.Component {
     }
     render() {
         if (!this.props.run) return null;
-        console.log('this.props',this.props);
         return this.renderStep();
     }
     next() {
         this.setState({
             ...this.state,
-            step: this.state.step + 1
+            step: this.state.step + 1,
+            visibility: false
         });
     }
+    makeVisible() {
+      if (this.state.visibility === true) return true;
+      this.setState({
+        ...this.state,
+        visibility: true
+      });
+    }
     calculateStyles(target) {
-        let targetRect = target.getBoundingClientRect();
-        console.log('targetRect',targetRect);
-
-        let left 	= targetRect.x + targetRect.width / 2 - this.state.width / 2;
-        let top 	= (targetRect.y + targetRect.height / 2 - this.state.height / 2) /*- scrollTop*/ ;
+        let {left, top} = this.calculatePosition(target);
 
         return {
           left,
-          top
+          top,
+          display: (this.state.visibility)?'block':'none'
         };
-        /*
-        if(typeof animate == 'undefined') animate = false;
-        var tPos 	= this.options.target.offset();
-        var tHeight = this.options.target.outerHeight();
-        var tWidth 	= this.options.target.outerWidth();
-    
-        var scrollTop = $(window).scrollTop();
-    
-        var eLeft 	= tPos.left + tWidth / 2 - this.options.width / 2;
-        var eTop 	= (tPos.top + tHeight / 2 - this.options.height / 2) - scrollTop;
-    
-        if(animate)
-          this.el.stop().animate({
-            left: eLeft + 'px',
-            top: eTop + 'px'
-          }, 400);
-        else
-          this.el.css({
-            left: eLeft + 'px',
-            top: eTop + 'px'
-          });
-    
-        var dWidth = $(document).width();
-        var centerMargin = dWidth / 12;
-    
-        if(eLeft > (dWidth / 2) - centerMargin && eLeft < (dWidth / 2) + centerMargin && dWidth > 700)// center
-        {
-          this.el.removeClass('on-right').addClass('on-center');
-          var maxWidth = dWidth / 3;
-        }
-        else if(eLeft > dWidth / 2) // on right
-        {
-          this.el.addClass('on-right').removeClass('on-center');
-          var maxWidth = dWidth - (dWidth - eLeft - this.options.width) - 25;
-        }
-        else
-        {
-          this.el.removeClass('on-right').removeClass('on-center');
-          var maxWidth = dWidth - eLeft - 25;
-        }
-    
-        this.el.children('div').css('max-width', maxWidth + 'px');
-        */
+    }
+    calculatePosition(target) {
+      let targetRect = target.getBoundingClientRect();
+
+      let left 	= targetRect.x + targetRect.width / 2 - this.state.width / 2;
+      let top 	= (targetRect.y + targetRect.height / 2 - this.state.height / 2) /*- scrollTop*/ ;
+      
+      return {
+        left,
+        top
+      }
+    }
+    scroll(element) {
+      var target = element.getBoundingClientRect().y + document.documentElement.scrollTop;
+      target = Math.max(target - 200, 0);
+      return scrollTo(document.documentElement, target, 200);
     }
 }
 
