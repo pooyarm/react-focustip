@@ -29,13 +29,15 @@ class App extends Component {
         target: '.shitLink',
         content: 'Buy and download Focustip files via this link.',
         ok: 'Ok',
-        color: '#000000'
+        color: '#000000',
+        size: 70
       },
       {
         target: '.secondLink',
         content: 'Having trouble with Focustip? Support is available....',
         ok: 'Ok',
-        color: '#000000'
+        color: '#000000',
+        size: 200
       },
     ]
     return (

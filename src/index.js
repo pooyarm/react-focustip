@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import stylesheet from './styles.css';
 import { scrollTo } from './utils/dom';
@@ -9,8 +10,6 @@ class App extends React.Component {
         this.state = {
             step: 0,
             visibility: false,
-            width: 100,
-            height: 100,
         };
     }
     renderStep() {
@@ -23,7 +22,7 @@ class App extends React.Component {
 
         this.scroll(target).then(this.makeVisible.bind(this));
 
-        let styles = this.calculateStyles(target);
+        let styles = this.calculateStyles(target, step);
 
         return (
             <div className={this.classNames()} style={styles}>
@@ -58,20 +57,33 @@ class App extends React.Component {
       });
     }
 
-    calculateStyles(target) {
-        let {left, top} = this.calculatePosition(target);
-
+    calculateStyles(target, step) {
+        let {left, top} = this.calculatePosition(target, step);
+        let {width, height} = this.calculateDimension(target, step);
         return {
           left,
           top,
+          width,
+          height
         };
     }
+
+    calculateDimension(target, step) {
+        return {
+            width:  this.size(step) + 'px',
+            height: this.size(step) + 'px'
+        }
+    }
+
+    size(step) {
+        return (step.size || this.props.size);
+    }
     
-    calculatePosition(target) {
+    calculatePosition(target, step) {
       let targetRect = target.getBoundingClientRect();
 
-      let left 	= targetRect.x + targetRect.width / 2 - this.state.width / 2;
-      let top 	= (targetRect.y + targetRect.height / 2 - this.state.height / 2) /*- scrollTop*/ ;
+      let left 	= targetRect.x + targetRect.width / 2 - this.size(step) / 2;
+      let top 	= (targetRect.y + targetRect.height / 2 - this.size(step) / 2) /*- scrollTop*/ ;
       
       return {
         left,
@@ -91,5 +103,15 @@ class App extends React.Component {
       return scrollTo(document.documentElement, target, 200);
     }
 }
+
+App.propTypes = {
+    steps:  PropTypes.arrayOf(PropTypes.object).isRequired,
+    run:    PropTypes.bool.isRequired,
+    size:   PropTypes.number
+}
+
+App.defaultProps = {
+    size:   100
+};
 
 export default App;
