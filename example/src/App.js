@@ -20,6 +20,11 @@ class App extends Component {
   render() {
     var steps = [
       {
+        target: '.bottomLink',
+        content: 'Focustip provides a way for you to introduce your page and more...',
+        color: '#44B85D'
+      },
+      {
         target: '.shitBtn',
         content: 'Focustip provides a way for you to introduce your page and more...',
         ok: 'I see',

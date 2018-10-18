@@ -43,24 +43,62 @@
 	width: 400px;
 	line-height: 1.15em;
 }
+.focustip__contentWrapper.focustip__contentWrapper--top {
+	top: auto;
+	bottom: calc(100% + 20px);
+}
+.focustip__contentWrapper.focustip__contentWrapper--left {
+	left: auto;
+	right: 30%;
+}
 .focustip__content {
   
 }
 .focustip__ok {
-  box-sizing: content-box;
-  display: inline-block;
-  background: rgba(255,255,255,0.15);
-  text-transform: uppercase;
-  letter-spacing: -0.5px;
-  padding: 10px 15px;
-  text-decoration: none;
-  color: inherit;
-  font-size: 20px;
-  font-weight: bold;
+	box-sizing: content-box;
+	display: inline-block;
+	background: rgba(255,255,255,0.15);
+	text-transform: uppercase;
+	letter-spacing: -0.5px;
+	padding: 10px 15px;
+	text-decoration: none;
+	color: inherit;
+	font-size: 20px;
+	font-weight: bold;
+	cursor: pointer;
 
-  -webkit-transition: all 0.3s ease;                  
-  -moz-transition: all 0.3s ease;                 
-  -o-transition: all 0.3s ease;   
-  -ms-transition: all 0.3s ease;          
-  transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;                  
+	-moz-transition: all 0.3s ease;                 
+	-o-transition: all 0.3s ease;   
+	-ms-transition: all 0.3s ease;          
+	transition: all 0.3s ease;
 }
+/*
+@media only screen and (max-width: 700px) { 
+	.focustip__contentWrapper{
+		font-size: 18px;
+		width: 300px;
+		left: 0;
+	}
+	.focustip__contentWrapper.focustip__contentWrapper--left {
+		right: 0;
+	}
+	.focustip__ok{
+		font-size: 18px;
+	}
+}
+
+@media only screen and (max-width: 400px) { 
+	.focustip__contentWrapper{
+		font-size: 16px;
+		width: 100vw;
+		left: 0;
+	}
+	.focustip__contentWrapper.focustip__contentWrapper--left {
+		right: 0;
+	}
+	.focustip__ok{
+		font-size: 16px;
+	}
+}
+*/

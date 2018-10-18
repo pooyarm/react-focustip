@@ -4,7 +4,7 @@ class ComponentExport extends Component {
   render() {
     return (
       <div className="component component-mellow">
-        shit?
+        <a href='#' className="bottomLink" style={{position: 'absolute',top:'90%',left:'70%'}}>Bottom Link</a>
       </div>
     );
   }

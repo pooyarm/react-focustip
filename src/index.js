@@ -28,12 +28,12 @@ class App extends React.Component {
         return (
             <div className={this.classNames()} style={styles}>
               <span className={stylesheet.focustip__lens} style={this.calculateLensStyles(target, step)}></span>
-              <div className={stylesheet.focustip__contentWrapper}>
+              <div className={this.contentWrapperClassNames(target, step)}>
                 <div className={stylesheet.focustip__content}>
                   {step.content}
                 </div>
                 <div className={stylesheet.focustip__ok} onClick={this.next.bind(this)}>
-                    {step.ok}
+                    {this.ok(step)}
                 </div>
               </div>
             </div>
@@ -51,11 +51,15 @@ class App extends React.Component {
         });
     }
     makeVisible() {
-      if (this.state.visibility === true) return true;
-      this.setState({
-        ...this.state,
-        visibility: true
-      });
+        if (this.state.visibility === true) return true;
+        this.setState({
+            ...this.state,
+            visibility: true
+        });
+    }
+
+    ok(step) {
+        return step.ok || this.props.ok;
     }
 
     calculateStyles(target, step) {
@@ -87,20 +91,36 @@ class App extends React.Component {
         return `rgba(${rgba.r},${rgba.g},${rgba.b},0.8)`;
     }
 
+    contentWrapperClassNames(target, step) {
+        let classNames = [stylesheet.focustip__contentWrapper];
+
+        let {left, top} = this.calculatePosition(target, step);
+
+        if ((top + this.size(step)) > window.innerHeight * 2/3) {
+            classNames.push(stylesheet['focustip__contentWrapper--top']);
+        }
+
+        if ((left + this.size(step) * 0.3 + 400) > window.innerWidth) {
+            classNames.push(stylesheet['focustip__contentWrapper--left']);
+        }
+
+        return classNames.join(' ');
+    }
+
     size(step) {
         return (step.size || this.props.size);
     }
     
     calculatePosition(target, step) {
-      let targetRect = target.getBoundingClientRect();
+        let targetRect = target.getBoundingClientRect();
 
-      let left 	= targetRect.x + targetRect.width / 2 - this.size(step) / 2;
-      let top 	= (targetRect.y + targetRect.height / 2 - this.size(step) / 2) /*- scrollTop*/ ;
-      
-      return {
-        left,
-        top
-      }
+        let left 	= (targetRect.x + targetRect.width / 2 - this.size(step) / 2);
+        let top 	= (targetRect.y + targetRect.height / 2 - this.size(step) / 2) /*- scrollTop*/ ;
+        
+        return {
+            left,
+            top
+        }
     }
 
     classNames() {
@@ -110,20 +130,22 @@ class App extends React.Component {
     }
     
     scroll(element) {
-      var target = element.getBoundingClientRect().y + document.documentElement.scrollTop;
-      target = Math.max(target - 200, 0);
-      return scrollTo(document.documentElement, target, 200);
+        var target = element.getBoundingClientRect().y + document.documentElement.scrollTop;
+        target = Math.max(target - 100, 0);
+        return scrollTo(document.documentElement, target, 200);
     }
 }
 
 App.propTypes = {
     steps:  PropTypes.arrayOf(PropTypes.object).isRequired,
     run:    PropTypes.bool.isRequired,
-    size:   PropTypes.number
+    size:   PropTypes.number,
+    ok:     PropTypes.string,
 }
 
 App.defaultProps = {
-    size:   100
+    size:   100,
+    ok:     'Ok'
 };
 
 export default App;
