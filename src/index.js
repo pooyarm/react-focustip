@@ -6,12 +6,23 @@ import { scrollTo } from './utils/dom';
 import { hexToRgb } from './utils/color';
 
 class App extends React.Component {
+    resizeHandler = false;
+
     constructor(props) {
         super(props);
         this.state = {
             step: 0,
             visibility: false,
+            window: this.windowDimension()
         };
+
+        this.onResize = this.onResize.bind(this);
+    }
+    componentDidMount() {
+        window.addEventListener('resize', this.onResize);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onResize);
     }
     renderStep() {
         let step = this.props.steps[this.state.step];
@@ -24,6 +35,7 @@ class App extends React.Component {
         this.scroll(target).then(this.makeVisible.bind(this));
 
         let styles = this.calculateStyles(target, step);
+        console.log('styles',styles);
 
         return (
             <div className={this.classNames()} style={styles}>
@@ -43,6 +55,10 @@ class App extends React.Component {
         if (!this.props.run) return null;
         return this.renderStep();
     }
+    onResize() {
+        clearTimeout(this.resizeHandler);
+        this.resizeHandler = setTimeout(this.updateDimension.bind(this), 200);
+    }
     next() {
         this.setState({
             ...this.state,
@@ -57,6 +73,18 @@ class App extends React.Component {
             visibility: true
         });
     }
+    windowDimension() {
+        return {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
+    }
+    updateDimension() {
+        this.setState({
+            ...this.state,
+            window: this.windowDimension()
+        });
+    }
 
     ok(step) {
         return step.ok || this.props.ok;
@@ -66,10 +94,10 @@ class App extends React.Component {
         let {left, top} = this.calculatePosition(target, step);
         let {width, height} = this.calculateDimension(target, step);
         return {
-          left,
-          top,
-          width,
-          height
+            left,
+            top,
+            width,
+            height
         };
     }
 
@@ -96,11 +124,11 @@ class App extends React.Component {
 
         let {left, top} = this.calculatePosition(target, step);
 
-        if ((top + this.size(step)) > window.innerHeight * 2/3) {
+        if ((top + this.size(step)) > this.state.window.height * 2/3) {
             classNames.push(stylesheet['focustip__contentWrapper--top']);
         }
 
-        if ((left + this.size(step) * 0.3 + 400) > window.innerWidth) {
+        if ((left + this.size(step) * 0.3 + 400) > this.state.window.width) {
             classNames.push(stylesheet['focustip__contentWrapper--left']);
         }
 
