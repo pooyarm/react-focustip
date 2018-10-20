@@ -22,7 +22,6 @@ class App extends Component {
       {
         target: '.bottomLink',
         content: 'Focustip provides a way for you to introduce your page and more...',
-        color: '#44B85D'
       },
       {
         target: '.shitBtn',

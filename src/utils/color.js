@@ -1,3 +1,5 @@
+import { random } from "./math";
+
 export const hexToRgb = function(hex) {
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
         hex = hex.replace(shorthandRegex, function(m, r, g, b) {
@@ -11,3 +13,11 @@ export const hexToRgb = function(hex) {
         b: parseInt(result[3], 16)
     } : null;
 };
+
+export const randomColor = function(maxBrighness = 150) {
+    return {
+        r: random(0,maxBrighness),
+        g: random(0,maxBrighness),
+        b: random(0,maxBrighness)
+    }
+}

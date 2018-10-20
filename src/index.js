@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import stylesheet from './styles.css';
 import { scrollTo } from './utils/dom';
-import { hexToRgb } from './utils/color';
+import { hexToRgb, randomColor } from './utils/color';
 
 class App extends React.Component {
     resizeHandler = false;
@@ -115,7 +115,7 @@ class App extends React.Component {
     }
 
     lensBorderColor(target, step) {
-        let rgba = hexToRgb(step.color);
+        let rgba = (step.color && hexToRgb(step.color)) || randomColor();
         return `rgba(${rgba.r},${rgba.g},${rgba.b},0.8)`;
     }
 
