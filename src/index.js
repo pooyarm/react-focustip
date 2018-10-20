@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import stylesheet from './styles.css';
-import { scrollToElement } from './utils/dom';
-import { hexToRgb, randomColor } from './utils/color';
+import Presentation from './presentation';
+import Scroller from './scroller';
 
 class App extends React.Component {
     resizeHandler = false;
@@ -12,7 +11,6 @@ class App extends React.Component {
         super(props);
         this.state = {
             step: 0,
-            visibility: false,
             window: this.windowDimension()
         };
 
@@ -27,42 +25,40 @@ class App extends React.Component {
         window.removeEventListener('resize', this.onResize);
     }
 
-    renderStep() {
-        let step = this.props.steps[this.state.step];
-        if (!step) return null;
-        let target = document.querySelector(step.target);
-        console.log('state', this.state);
-        console.log('step', step);
-        console.log('target',target);
-
-        this.scroll(target).then(this.makeVisible.bind(this));
-
-        let styles = this.styles(target, step);
-        console.log('styles',styles);
-
-        return (
-            <div className={this.classNames()} style={styles}>
-              <span className={stylesheet.focustip__lens} style={this.lensStyles(target, step)}></span>
-              <div className={this.contentWrapperClassNames(target, step)}>
-                <div className={stylesheet.focustip__content}>
-                  {step.content}
-                </div>
-                <div className={stylesheet.focustip__ok} onClick={this.next.bind(this)}>
-                    {this.ok(step)}
-                </div>
-              </div>
-            </div>
-        );
+    onResize() {
+        clearTimeout(this.resizeHandler);
+        this.resizeHandler = setTimeout(this.updateDimension.bind(this), 200);
     }
 
     render() {
         if (!this.props.run) return null;
-        return this.renderStep();
+        let step = this.step();
+        if (!step) return null;
+        return (
+            <Scroller
+                target={step.target}
+                windowDimension={this.state.window}
+                >
+                <Presentation
+                    step={step}
+                    windowDimension={this.state.window}
+                    nextHandler={this.next.bind(this)}
+                />
+            </Scroller>
+        )
     }
 
-    onResize() {
-        clearTimeout(this.resizeHandler);
-        this.resizeHandler = setTimeout(this.updateDimension.bind(this), 200);
+    step() {
+        let step = this.props.steps[this.state.step];
+        if (!step) return false;
+
+        step.size = this.size(step);
+
+        return step;
+    }
+
+    size(step) {
+        return (step.size || this.props.size);
     }
 
     next() {
@@ -70,14 +66,6 @@ class App extends React.Component {
             ...this.state,
             step: this.state.step + 1,
             visibility: false
-        });
-    }
-
-    makeVisible() {
-        if (this.state.visibility === true) return true;
-        this.setState({
-            ...this.state,
-            visibility: true
         });
     }
 
@@ -97,78 +85,7 @@ class App extends React.Component {
 
     ok(step) {
         return step.ok || this.props.ok;
-    }
-
-    styles(target, step) {
-        let {left, top}     = this.position(target, step);
-        let {width, height} = this.dimension(target, step);
-        return {
-            left,
-            top,
-            width,
-            height
-        };
-    }
-
-    dimension(target, step) {
-        return {
-            width:  this.size(step),
-            height: this.size(step)
-        }
-    }
-
-    lensStyles(target, step) {
-        return {
-            borderColor: this.lensBorderColor(target, step)
-        };
-    }
-
-    lensBorderColor(target, step) {
-        let rgba = (step.color && hexToRgb(step.color)) || randomColor();
-        return `rgba(${rgba.r},${rgba.g},${rgba.b},0.8)`;
-    }
-
-    contentWrapperClassNames(target, step) {
-        let classNames = [stylesheet.focustip__contentWrapper];
-
-        let {left, top} = this.position(target, step);
-
-        if ((top + this.size(step)) > this.state.window.height * 2/3) {
-            classNames.push(stylesheet['focustip__contentWrapper--top']);
-        }
-
-        if ((left + this.size(step) * 0.3 + 400) > this.state.window.width) {
-            classNames.push(stylesheet['focustip__contentWrapper--left']);
-        }
-
-        return classNames.join(' ');
-    }
-
-    size(step) {
-        return (step.size || this.props.size);
-    }
-    
-    position(target, step) {
-        let targetRect = target.getBoundingClientRect();
-
-        let left 	= (targetRect.x + targetRect.width / 2 - this.size(step) / 2);
-        let top 	= (targetRect.y + targetRect.height / 2 - this.size(step) / 2) /*- scrollTop*/ ;
-        
-        return {
-            left,
-            top
-        }
-    }
-
-    classNames() {
-        var classNames = [stylesheet.focustip];
-        classNames.push((this.state.visibility)?stylesheet['focustip--visible']:stylesheet['focustip--invisible']);
-        return classNames.join(' ');
-    }
-    
-    scroll(element) {
-        return scrollToElement(element);
-    }
+    }    
 }
 
 App.propTypes = {

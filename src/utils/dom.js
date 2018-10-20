@@ -14,15 +14,17 @@ export const scrollTo = function(element, to, duration) {
             if(currentTime < duration) {
                 setTimeout(animateScroll, increment);
             } else {
-                resolve();
+                resolve(element.scrollTop);
             }
         };
         animateScroll();
     });
 }
 
-export const scrollToElement = (element) => {
+export const calculateElementScrollTarget = (element) => {
     var target = element.getBoundingClientRect().y + document.documentElement.scrollTop;
     target = Math.max(target - 100, 0);
-    return scrollTo(document.documentElement, target, 200);
+    var maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    target = Math.min(target, maxScroll);
+    return target;
 }
