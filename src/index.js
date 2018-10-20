@@ -62,6 +62,12 @@ class App extends React.Component {
     }
 
     next() {
+        if (this.state.step + 1 < this.props.steps.length) {
+            this.props.onNext && this.props.onNext(this.state.step);
+        } else {
+            this.props.onComplete && this.props.onComplete();
+        }
+
         this.setState({
             ...this.state,
             step: this.state.step + 1,
@@ -89,10 +95,13 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-    steps:  PropTypes.arrayOf(PropTypes.object).isRequired,
-    run:    PropTypes.bool.isRequired,
-    size:   PropTypes.number,
-    ok:     PropTypes.string,
+    steps:      PropTypes.arrayOf(PropTypes.object).isRequired,
+    run:        PropTypes.bool.isRequired,
+    size:       PropTypes.number,
+    ok:         PropTypes.string,
+    
+    onComplete: PropTypes.func,
+    onNext:     PropTypes.func
 }
 
 App.defaultProps = {

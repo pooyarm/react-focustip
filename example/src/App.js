@@ -49,6 +49,12 @@ class App extends Component {
         <Focustip
           steps={steps}
           run={this.state.run}
+          onComplete={() => {
+            console.log('completed');
+          }}
+          onNext={(step) => {
+            console.log('onNext', step)
+          }}
         />
         <div className="component-holder">
           <ComponentRed />
