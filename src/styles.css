@@ -38,21 +38,21 @@
 	color: #FFF;
 	font-size: 25px;
 	position: absolute;
-	top: calc(100% + 20px);
+	top: calc(100% + 10px);
 	left: 30%;
 	width: 400px;
 	line-height: 1.15em;
 }
 .focustip__contentWrapper.focustip__contentWrapper--top {
 	top: auto;
-	bottom: calc(100% + 20px);
+	bottom: calc(100% + 10px);
 }
 .focustip__contentWrapper.focustip__contentWrapper--left {
 	left: auto;
 	right: 30%;
 }
 .focustip__content {
-  
+	margin: 10px 0;
 }
 .focustip__ok {
 	box-sizing: content-box;
@@ -72,6 +72,11 @@
 	-o-transition: all 0.3s ease;   
 	-ms-transition: all 0.3s ease;          
 	transition: all 0.3s ease;
+}
+.focustip__ok:hover{
+	background: rgba(255,255,255,0.25);
+	opacity: 1;
+	text-decoration: none;
 }
 /*
 @media only screen and (max-width: 700px) { 
