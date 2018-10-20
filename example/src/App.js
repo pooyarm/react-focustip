@@ -40,8 +40,7 @@ class App extends Component {
         target: '.secondLink',
         content: 'Having trouble with Focustip? Support is available....',
         ok: 'Ok',
-        color: '#000000',
-        size: 200
+        color: '#000000'
       },
     ]
     return (

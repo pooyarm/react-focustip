@@ -81,11 +81,10 @@
 	opacity: 1;
 	text-decoration: none;
 }
-/*
 @media only screen and (max-width: 700px) { 
 	.focustip__contentWrapper{
 		font-size: 18px;
-		width: 300px;
+		max-width: 60vw;
 		left: 0;
 	}
 	.focustip__contentWrapper.focustip__contentWrapper--left {
@@ -99,14 +98,12 @@
 @media only screen and (max-width: 400px) { 
 	.focustip__contentWrapper{
 		font-size: 16px;
-		width: 100vw;
-		left: 0;
+		left: 10%;
 	}
 	.focustip__contentWrapper.focustip__contentWrapper--left {
-		right: 0;
+		right: 10%;
 	}
 	.focustip__ok{
 		font-size: 16px;
 	}
 }
-*/

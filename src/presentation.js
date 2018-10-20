@@ -23,7 +23,7 @@ class Presentation extends React.Component {
 
     render() {
         document.body.classList.add(stylesheet.focustipBodyLock);
-        
+
         let step = this.props.step;
         let styles = this.styles(this.target(), step);
 
@@ -91,7 +91,8 @@ class Presentation extends React.Component {
             classNames.push(stylesheet['focustip__contentWrapper--top']);
         }
 
-        if ((left + step.size * 0.3 + 400) > this.props.windowDimension.width) {
+        // if ((left + step.size * 0.3 + 400) > this.props.windowDimension.width) {
+        if (left > this.props.windowDimension.width / 2) {
             classNames.push(stylesheet['focustip__contentWrapper--left']);
         }
 
