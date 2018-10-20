@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import stylesheet from './styles.css';
-import { scrollTo } from './utils/dom';
+import { scrollToElement } from './utils/dom';
 import { hexToRgb, randomColor } from './utils/color';
 
 class App extends React.Component {
@@ -18,12 +18,15 @@ class App extends React.Component {
 
         this.onResize = this.onResize.bind(this);
     }
+    
     componentDidMount() {
         window.addEventListener('resize', this.onResize);
     }
+
     componentWillUnmount() {
         window.removeEventListener('resize', this.onResize);
     }
+
     renderStep() {
         let step = this.props.steps[this.state.step];
         if (!step) return null;
@@ -34,12 +37,12 @@ class App extends React.Component {
 
         this.scroll(target).then(this.makeVisible.bind(this));
 
-        let styles = this.calculateStyles(target, step);
+        let styles = this.styles(target, step);
         console.log('styles',styles);
 
         return (
             <div className={this.classNames()} style={styles}>
-              <span className={stylesheet.focustip__lens} style={this.calculateLensStyles(target, step)}></span>
+              <span className={stylesheet.focustip__lens} style={this.lensStyles(target, step)}></span>
               <div className={this.contentWrapperClassNames(target, step)}>
                 <div className={stylesheet.focustip__content}>
                   {step.content}
@@ -51,14 +54,17 @@ class App extends React.Component {
             </div>
         );
     }
+
     render() {
         if (!this.props.run) return null;
         return this.renderStep();
     }
+
     onResize() {
         clearTimeout(this.resizeHandler);
         this.resizeHandler = setTimeout(this.updateDimension.bind(this), 200);
     }
+
     next() {
         this.setState({
             ...this.state,
@@ -66,6 +72,7 @@ class App extends React.Component {
             visibility: false
         });
     }
+
     makeVisible() {
         if (this.state.visibility === true) return true;
         this.setState({
@@ -73,12 +80,14 @@ class App extends React.Component {
             visibility: true
         });
     }
+
     windowDimension() {
         return {
             width: window.innerWidth,
             height: window.innerHeight
         }
     }
+
     updateDimension() {
         this.setState({
             ...this.state,
@@ -90,9 +99,9 @@ class App extends React.Component {
         return step.ok || this.props.ok;
     }
 
-    calculateStyles(target, step) {
-        let {left, top} = this.calculatePosition(target, step);
-        let {width, height} = this.calculateDimension(target, step);
+    styles(target, step) {
+        let {left, top}     = this.position(target, step);
+        let {width, height} = this.dimension(target, step);
         return {
             left,
             top,
@@ -101,14 +110,14 @@ class App extends React.Component {
         };
     }
 
-    calculateDimension(target, step) {
+    dimension(target, step) {
         return {
-            width:  this.size(step) + 'px',
-            height: this.size(step) + 'px'
+            width:  this.size(step),
+            height: this.size(step)
         }
     }
 
-    calculateLensStyles(target, step) {
+    lensStyles(target, step) {
         return {
             borderColor: this.lensBorderColor(target, step)
         };
@@ -122,7 +131,7 @@ class App extends React.Component {
     contentWrapperClassNames(target, step) {
         let classNames = [stylesheet.focustip__contentWrapper];
 
-        let {left, top} = this.calculatePosition(target, step);
+        let {left, top} = this.position(target, step);
 
         if ((top + this.size(step)) > this.state.window.height * 2/3) {
             classNames.push(stylesheet['focustip__contentWrapper--top']);
@@ -139,7 +148,7 @@ class App extends React.Component {
         return (step.size || this.props.size);
     }
     
-    calculatePosition(target, step) {
+    position(target, step) {
         let targetRect = target.getBoundingClientRect();
 
         let left 	= (targetRect.x + targetRect.width / 2 - this.size(step) / 2);
@@ -158,9 +167,7 @@ class App extends React.Component {
     }
     
     scroll(element) {
-        var target = element.getBoundingClientRect().y + document.documentElement.scrollTop;
-        target = Math.max(target - 100, 0);
-        return scrollTo(document.documentElement, target, 200);
+        return scrollToElement(element);
     }
 }
 

@@ -20,3 +20,9 @@ export const scrollTo = function(element, to, duration) {
         animateScroll();
     });
 }
+
+export const scrollToElement = (element) => {
+    var target = element.getBoundingClientRect().y + document.documentElement.scrollTop;
+    target = Math.max(target - 100, 0);
+    return scrollTo(document.documentElement, target, 200);
+}
