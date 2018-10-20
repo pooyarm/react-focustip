@@ -10,7 +10,6 @@ class Presentation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visibility: true,
             color: (this.props.step.color)? false : randomColor()
         };
     }
@@ -19,9 +18,12 @@ class Presentation extends React.Component {
     }
 
     componentWillUnmount() {
+        document.body.classList.remove(stylesheet.focustipBodyLock);
     }
 
     render() {
+        document.body.classList.add(stylesheet.focustipBodyLock);
+        
         let step = this.props.step;
         let styles = this.styles(this.target(), step);
 
@@ -38,14 +40,6 @@ class Presentation extends React.Component {
               </div>
             </div>
         );
-    }
-
-    makeVisible() {
-        if (this.state.visibility === true) return true;
-        this.setState({
-            ...this.state,
-            visibility: true
-        });
     }
 
     target() {
@@ -118,7 +112,7 @@ class Presentation extends React.Component {
 
     classNames() {
         var classNames = [stylesheet.focustip];
-        classNames.push((this.state.visibility)?stylesheet['focustip--visible']:stylesheet['focustip--invisible']);
+        classNames.push(stylesheet['focustip--visible']);
         return classNames.join(' ');
     }
 }
