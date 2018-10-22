@@ -26,7 +26,7 @@ class Scroller extends React.Component {
     }
     
     scroll(target) {
-        scrollTo(document.documentElement, target, 200).then((scroll) => {
+        scrollTo(target, 200).then((scroll) => {
             this.setState({
                 ...this.state,
                 scroll
