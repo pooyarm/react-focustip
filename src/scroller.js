@@ -12,7 +12,7 @@ class Scroller extends React.Component {
     }
 
     target() {
-        return document.querySelector(this.props.target);
+        return this.props.target;
     }
 
     render () {
@@ -36,7 +36,7 @@ class Scroller extends React.Component {
 }
 
 Scroller.propTypes = {
-    target: PropTypes.string.isRequired,
+    target: PropTypes.object.isRequired,
     windowDimension: PropTypes.object.isRequired
 }
 

@@ -33,7 +33,7 @@ class App extends React.Component {
     render() {
         if (!this.props.run) return null;
         let step = this.step();
-        if (!step) return null;
+        if (!step || !step.target) return null;
         return (
             <Scroller
                 target={step.target}
@@ -53,6 +53,7 @@ class App extends React.Component {
         if (!step) return false;
 
         step.size = this.size(step);
+        step.target = document.querySelector(step.target);
 
         return step;
     }

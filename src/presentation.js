@@ -44,8 +44,7 @@ class Presentation extends React.Component {
 
     target() {
         if (this.targetElement) return this.targetElement;
-        let step = this.props.step;
-        this.targetElement = document.querySelector(step.target)
+        this.targetElement = this.props.step.target;
         return this.targetElement;
     }
 
