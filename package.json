@@ -1,8 +1,8 @@
 {
   "name": "react-focustip",
   "version": "1.0.0",
-  "description": "",
-  "author": "pooyarm",
+  "description": "Create a fancy and stylish step-by-step guide and walkthrough introduction",
+  "author": "Pooya Rostam <pooyarm@gmail.com>",
   "license": "MIT",
   "repository": "pooyarm/react-focustip",
   "main": "dist/index.js",
