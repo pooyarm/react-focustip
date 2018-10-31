@@ -5,8 +5,6 @@ import stylesheet from './styles.css';
 import { hexToRgb, randomColor } from './utils/color';
 
 class Presentation extends React.Component {
-    targetElement = false;
-
     constructor(props) {
         super(props);
         this.state = {
@@ -43,9 +41,7 @@ class Presentation extends React.Component {
     }
 
     target() {
-        if (this.targetElement) return this.targetElement;
-        this.targetElement = this.props.step.target;
-        return this.targetElement;
+        return this.props.step.target;
     }
 
     ok(step) {

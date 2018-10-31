@@ -2,7 +2,7 @@
 	overflow: hidden;
 }
 .focustip {
-	box-sizing: content-box;
+	box-sizing: content-box!important;
 	position: fixed;
 	width: 100px;
 	height: 100px;
@@ -21,7 +21,7 @@
 	opacity: 1;
 }
 .focustip__lens {
-	box-sizing: content-box;
+	box-sizing: content-box!important;
 	content: '';
 	display: block;
 	position: absolute;
@@ -37,7 +37,7 @@
 	border: solid 5000px rgba(0,175,230,0.8);
 }
 .focustip__contentWrapper {
-	box-sizing: content-box;
+	box-sizing: content-box!important;
 	color: #FFF;
 	font-size: 25px;
 	position: absolute;
@@ -58,7 +58,7 @@
 	margin: 10px 0;
 }
 .focustip__ok {
-	box-sizing: content-box;
+	box-sizing: content-box!important;
 	display: inline-block;
 	background: rgba(255,255,255,0.15);
 	text-transform: uppercase;
